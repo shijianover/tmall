@@ -67,6 +67,7 @@ public abstract class BaseBackServlet extends HttpServlet {
 			Page page = new Page(start,count);
 			//这边借助反射调用相应的方法
 			String method = (String)request.getAttribute("method");
+			System.out.println("得到的method方法是："+method);
 			Method m = this.getClass().getMethod(method, javax.servlet.http.HttpServletRequest.class,javax.servlet.http.HttpServletResponse.class,Page.class);
 			String redirect = m.invoke(this,request,response,page).toString();
 			if(redirect.startsWith("@")){

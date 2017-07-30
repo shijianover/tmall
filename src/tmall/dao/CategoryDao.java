@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
+
 import tmall.bean.Category;
 import tmall.util.DBUtil;
  
@@ -15,7 +17,8 @@ public class CategoryDao {
 	public static void main(String[] args) {
 		System.out.println(new CategoryDao().getTotal());
 	}
- 
+
+
     public int getTotal() {
         int total = 0;
         try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement();) {

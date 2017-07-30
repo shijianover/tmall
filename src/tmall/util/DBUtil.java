@@ -17,8 +17,8 @@ import java.util.Properties;
 
 /**
  * @author TimesupSJ
- * @date 2017Äê7ÔÂ4ÈÕ
- * @time ÏÂÎç1:48:21
+ * @date 2017ï¿½ï¿½7ï¿½ï¿½4ï¿½ï¿½
+ * @time ï¿½ï¿½ï¿½ï¿½1:48:21
  *
  */
 public class DBUtil {
@@ -29,13 +29,13 @@ public class DBUtil {
 	private static String pwd;
 	
 	static{
-		//¶ÁÈ¡ÅäÖÃÎÄ¼þ£¬°ÑÅäÖÃÎÄ¼þÖÐµÄ¶ÔÓ¦Öµ£¬ÉèÖÃµ½¾²Ì¬µÄ³ÉÔ±±äÁ¿ÖÐÀ´
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ÐµÄ¶ï¿½Ó¦Öµï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ì¬ï¿½Ä³ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		InputStream in=DBUtil.class.getClassLoader().getResourceAsStream("db-config.properties");
-		//¶ÔInputStreamÁ÷½øÐÐ°ü×°£¬°ÑËû°ü×°³ÉÒ»¸öProperties¶ÔÏó(PropertiesÊÇÒ»¸öÌØÊâµÄmap¼¯ºÏ,ÀïÃæµÄÔªËØ¶¼ÊÇÓÐ key=value×é³ÉµÄ)
+		//ï¿½ï¿½InputStreamï¿½ï¿½ï¿½ï¿½ï¿½Ð°ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½Ò»ï¿½ï¿½Propertiesï¿½ï¿½ï¿½ï¿½(Propertiesï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Ø¶ï¿½ï¿½ï¿½ï¿½ï¿½ key=valueï¿½ï¿½Éµï¿½)
 		Properties prop=new Properties();
 		try {
 			prop.load(in);
-			driver=prop.getProperty("driverClass");//getProperty£¨String key£©·½·¨ÖÐµÄ²ÎÊýÎªpropertiesÎÄ¼þÖÐµÄkey
+			driver=prop.getProperty("driverClass");//getPropertyï¿½ï¿½String keyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄ²ï¿½ï¿½ï¿½Îªpropertiesï¿½Ä¼ï¿½ï¿½Ðµï¿½key
 			dburl=prop.getProperty("dburl");
 			username=prop.getProperty("user");
 			pwd=prop.getProperty("password");
@@ -52,6 +52,9 @@ public class DBUtil {
 				}
 			}
 		}
+	}
+	public static void main(String[] args) {
+		Connection c = DBUtil.getConnection();
 	}
 
 
@@ -95,6 +98,7 @@ public class DBUtil {
 	
 	public static Connection getConnection(){
 		Connection con=null;
+		System.out.println(dburl);
 		   try {
 			Class.forName(driver);
 			con=DriverManager.getConnection(dburl, username, pwd);
@@ -108,10 +112,10 @@ public class DBUtil {
 		return con;
 	}
 	/**
-	 * ¹¦ÄÜ£º¶ÔËùÓÐ±íµÄ¸üÐÂ²Ù×÷£¨insert ,update,delete)½øÐÐ³éÈ¡ÓÅ»¯,ÐÎ³ÉÒ»¸öÍ³Ò»µÄupdate·½·¨
-	 * ·½·¨²ÎÊýËµÃ÷£º
-	 * µÚÒ»¸ö sql:±íÊ¾Òª½øÐÐ¸üÐÂµÄsqlÓï¾ä
-	 * µÚ¶þ¸öparams:±íÊ¾sql¶ÔÓ¦ÎÊºÅÎ»ÖÃµÄÖµ£¨Èç¹ûÓÐ¿É±ä»¯²ÎÊýµÄ»°£©
+	 * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½Ä¸ï¿½ï¿½Â²ï¿½ï¿½ï¿½ï¿½ï¿½insert ,update,delete)ï¿½ï¿½ï¿½Ð³ï¿½È¡ï¿½Å»ï¿½,ï¿½Î³ï¿½Ò»ï¿½ï¿½Í³Ò»ï¿½ï¿½updateï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½Ò»ï¿½ï¿½ sql:ï¿½ï¿½Ê¾Òªï¿½ï¿½ï¿½Ð¸ï¿½ï¿½Âµï¿½sqlï¿½ï¿½ï¿½
+	 * ï¿½Ú¶ï¿½ï¿½ï¿½params:ï¿½ï¿½Ê¾sqlï¿½ï¿½Ó¦ï¿½Êºï¿½Î»ï¿½Ãµï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿É±ä»¯ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	public static  boolean update(String sql,Object[] params){
@@ -122,9 +126,9 @@ public class DBUtil {
 		if(con!=null){
 			try {
 				ps=con.prepareStatement(sql);
-				//ÈçºÎ¸øÎÊºÅÎ»ÖÃ¸³ÖµÄØ£¿
+				//ï¿½ï¿½Î¸ï¿½ï¿½Êºï¿½Î»ï¿½Ã¸ï¿½Öµï¿½Ø£ï¿½
 				for(int i=0;params!=null&&i<params.length;i++){
-					//»¹Òª¿¼ÂÇÀàÐÍÆ¥ÅäµÄÎÊÌâ£¨ÈçÊµÌåÀàÖÐµÄboolean-¡·int,ÊµÌåÀàÖÐµÄjava.util.Date->java.sql.Date
+					//ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â£¨ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½boolean-ï¿½ï¿½int,Êµï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½java.util.Date->java.sql.Date
 					if(params[i] instanceof Boolean || params[i].getClass() ==boolean.class){
 						boolean b=(boolean) params[i];
 						ps.setInt(i+1, b?1:0);

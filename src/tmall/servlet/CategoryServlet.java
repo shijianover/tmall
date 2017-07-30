@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -43,6 +44,7 @@ public class CategoryServlet extends BaseBackServlet {
 						fos.write(b, 0, len);
 					}
 					fos.flush();
+					//将不同格式的图片文件全部转换成jpg格式的文件
 					BufferedImage img = ImageUtil.change2jpg(file);
 					ImageIO.write(img, "jpg", file);
 					
@@ -65,8 +67,9 @@ public class CategoryServlet extends BaseBackServlet {
 	 */
 	@Override
 	public String delete(HttpServletRequest request, HttpServletResponse response, Page page) {
-		// TODO Auto-generated method stub
-		return null;
+		int id = Integer.parseInt(request.getParameter("id"));
+		categoryDao.delete(id);
+		return "@admin_category_list";
 	}
 
 	/* (non-Javadoc)
@@ -75,7 +78,12 @@ public class CategoryServlet extends BaseBackServlet {
 	@Override
 	public String edit(HttpServletRequest request, HttpServletResponse response, Page page) {
 		// TODO Auto-generated method stub
-		return null;
+		int id = Integer.parseInt(request.getParameter("id"));
+		//首先将所要修改的商品种类信息查询上来
+		Category c  = categoryDao.get(id);
+		request.setAttribute("c", c);
+		return "admin/editCategory.jsp";
+		
 	}
 
 	/* (non-Javadoc)
@@ -83,8 +91,43 @@ public class CategoryServlet extends BaseBackServlet {
 	 */
 	@Override
 	public String update(HttpServletRequest request, HttpServletResponse response, Page page) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String,String> params = new HashMap();
+		InputStream is = super.parseUpload(request, params);
+		int id = Integer.parseInt(params.get("id"));
+		String name = params.get("name");
+		Category c = new Category();
+		c.setName(name);
+		c.setId(id);
+		//将更新信息写入数据库
+		categoryDao.update(c);
+		File imgFolder = new File(request.getServletContext().getRealPath("img/category"));
+		String imgFolderPath = request.getServletContext().getRealPath("img/category");
+		
+		System.out.println("这边获得到的图片路径:"+imgFolderPath);
+		File file = new File(imgFolder,c.getId()+".jpg");
+		try {
+			if(null!=is && 0!=is.available()){
+				try(FileOutputStream fos = new FileOutputStream(file)){
+					byte buffer[] = new byte[1024*1024];
+					int len = -1;
+					while((len = is.read(buffer))>0){
+						fos.write(buffer, 0, len);
+					}
+					fos.flush();
+				}catch(Exception e){
+					e.printStackTrace();
+					
+				}
+				
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "admin_category_list";
+		
+		
 	}
 
 	/* (non-Javadoc)
@@ -93,6 +136,14 @@ public class CategoryServlet extends BaseBackServlet {
 	@Override
 	public String list(HttpServletRequest request, HttpServletResponse response, Page page) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Category>cs = categoryDao.list(page.getStart(),page.getCount());
+		int total = categoryDao.getTotal();
+		page.setTotal(total);
+		request.setAttribute("thecs",cs);
+		//将查询到的集合写入request对象中去
+		request.setAttribute("page", page);
+		
+		return "admin/listCategory.jsp";
+		
 	}
 }
